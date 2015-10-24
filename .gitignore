@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+venv
+*.pyc
+staticfiles
+.idea
+drf_gem_build
+
