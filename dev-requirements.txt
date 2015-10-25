@@ -12,3 +12,4 @@ django-rest-auth
 django-rest-swagger
 django-url-filter
 djangorestframework
+yet_another_django_profiler
