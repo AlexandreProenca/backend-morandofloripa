@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework import permissions, viewsets, status, parsers, renderers
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 import models
 import serializers
@@ -18,6 +18,9 @@ class UserView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['username', 'email']
+
+    def get_permissions(self):
+        return (AllowAny() if self.request.method == 'POST' else IsAuthenticated()),
 
 
 class AvaliacaoView(viewsets.ModelViewSet):
