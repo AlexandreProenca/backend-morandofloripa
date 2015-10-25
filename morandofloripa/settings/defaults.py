@@ -65,21 +65,28 @@ MIDDLEWARE_CLASSES = (
 )
 
 #TODO substituir como o nome do projeto
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'morandofloripa.urls'
+
 
 #TODO subtituir com o nome do projeto
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'morandofloripa.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'nwpartner9',
+        'USER': 'nwpartner9',
+        'PASSWORD': 'gmmaster765',
+        'HOST': '187.45.196.238',
+        'PORT': '3306',
+    }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -127,32 +134,13 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static')
 
 #Old style
 #TEMPLATE_DIRS = (
 #    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates'),
 #)
-
-# for sending emails
-# see https://docs.djangoproject.com/en/1.7/topics/email/ for details
-# for test, it just stores all emails to EMAIL_FILE_PATH
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend:wq'
-
-
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-#To test emails send by Google
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'linuxloco@gmail.com'
-EMAIL_HOST_PASSWORD = ''
-SERVER_EMAIL = 'linuxloco@gmail.com'
-DEFAULT_FROM_EMAIL = 'linuxloco@gmail.com'
 
 #To use with http://swagger.io/
 SWAGGER_SETTINGS = {
@@ -210,21 +198,5 @@ CACHES = {
     }
 }
 
-# Heroku configs
-# Parse database configuration from $DATABASE_URL
-# import dj_database_url
-# DATABASES['default'] =  dj_database_url.config()
 
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Static asset configuration
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 

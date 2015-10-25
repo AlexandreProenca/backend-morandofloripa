@@ -1,1 +1,1 @@
-__author__ = 'thod'
+__author__ = 'Alexandre Proença'
