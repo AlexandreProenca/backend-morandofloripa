@@ -1,0 +1,14 @@
+Django
+Jinja2
+Markdown
+MarkupSafe
+MySQL-python
+PyYAML
+django-braces
+django-cors-headers
+django-filter
+django-jet
+django-rest-auth
+django-rest-swagger
+django-url-filter
+djangorestframework

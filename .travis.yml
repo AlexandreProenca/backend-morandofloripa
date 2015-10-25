@@ -1,0 +1,21 @@
+language: python
+
+python:
+- '2.7'
+
+env:
+- $DJANGO='django<1.9'
+
+sudo: true
+
+install:
+- pip install $DJANGO
+- pip install -r dev-requirements.txt
+- pip install coveralls
+- pip freeze
+
+script: python manage.py test --settings=tests.settings2test
+
+after_success: coveralls
+
+

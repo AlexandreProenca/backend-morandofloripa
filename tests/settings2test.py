@@ -75,18 +75,12 @@ WSGI_APPLICATION = 'morandofloripa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nwpartner9',
-        'USER': 'nwpartner9',
-        'PASSWORD': 'gmmaster765',
-        'HOST': '187.45.196.238',
-        'PORT': '3306',
-    }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite',
+        }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
