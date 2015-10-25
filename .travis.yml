@@ -14,7 +14,7 @@ install:
 - pip install coveralls
 - pip freeze
 
-script: python manage.py test --settings=tests.settings_test
+script: python manage.py test --settings=tests.settingstest
 
 after_success: coveralls
 
