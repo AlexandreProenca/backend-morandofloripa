@@ -14,3 +14,4 @@ django-url-filter
 djangorestframework
 yet_another_django_profiler
 oauth2_provider
+memcache
