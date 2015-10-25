@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+admin.autodiscover()
+
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^docs/', include('rest_framework_swagger.urls')),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
