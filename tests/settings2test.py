@@ -65,11 +65,10 @@ MIDDLEWARE_CLASSES = (
 )
 
 #TODO substituir como o nome do projeto
-ROOT_URLCONF = 'morandofloripa.morandofloripa.urls'
-
+ROOT_URLCONF = 'urls'
 
 #TODO subtituir com o nome do projeto
-WSGI_APPLICATION = 'morandofloripa.morandofloripa.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
