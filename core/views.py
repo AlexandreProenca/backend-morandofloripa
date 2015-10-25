@@ -23,6 +23,7 @@ class UserView(viewsets.ModelViewSet):
         return (AllowAny() if self.request.method == 'POST' else IsAuthenticated()),
 
 
+
 class AvaliacaoView(viewsets.ModelViewSet):
     serializer_class = serializers.AvaliacaoSerializer
     queryset = models.Avaliacao.objects.all()
