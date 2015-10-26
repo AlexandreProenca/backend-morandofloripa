@@ -88,11 +88,11 @@ class PasswordReset(GenericAPIView):
     def post(self, request, *args, **kwargs):
         # Create a serializer with request.DATA
 
-        serializer = self.get_serializer(data=request.DATA)
-        email = self.request.DATA[unicode('email')]
-
+        serializer = self.get_serializer(data=request.data)
+        email = self.request.data['email']
+        #
         if not User.objects.filter(email=email):
-            return Response(data={"error": "Email " + email + " not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={"error": "Email " + email + " was not found"}, status=status.HTTP_400_BAD_REQUEST)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
