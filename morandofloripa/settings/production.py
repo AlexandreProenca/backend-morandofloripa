@@ -22,7 +22,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'linuxloco@gmail.com'
 EMAIL_HOST_PASSWORD = 'reis843*'
 SERVER_EMAIL = 'linuxloco@gmail.com'
-DEFAULT_FROM_EMAIL = 'linuxloco@gmail.com'
+DEFAULT_FROM_EMAIL = 'contato@morandofloripa.com.br'
 
 #Django Restframework configuration
 REST_FRAMEWORK = {
@@ -45,7 +45,7 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     'exclude_namespaces': [],
-    'api_version': 'V0.1.1 Production',
+    'api_version': 'V1 Production',
     'api_path': '/',
     'enabled_methods': [
         'get',
