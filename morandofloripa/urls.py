@@ -23,6 +23,12 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'^v1/password-reset/$', 'core.views.password_reset', {'post_reset_redirect' : '/accounts/password_reset/mailed/'}, name='password-reset'),
+    #to use management credentials in web page and reset password
+    url(r'^accounts/password_reset/$', 'django.contrib.auth.views.password_reset', {'post_reset_redirect': '/accounts/password_reset/mailed/'}, name="password_reset"),
+    url(r'^accounts/password_reset/mailed/$','django.contrib.auth.views.password_reset_done', name="password_reset_confirm"),
+    url(r'^accounts/password_reset/(?P<uidb64>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'django.contrib.auth.views.password_reset_confirm',  {'post_reset_redirect' : '/accounts/password_reset/complete/'}, name="password_reset_confirm"),
+    url(r'^accounts/password_reset/complete/$','django.contrib.auth.views.password_reset_complete'),
+
     #url(r'^oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^v1/rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

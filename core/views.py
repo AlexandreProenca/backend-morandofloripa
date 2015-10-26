@@ -101,4 +101,3 @@ class PasswordReset(GenericAPIView):
         return Response({"success": "Password reset e-mail has been sent."}, status=status.HTTP_200_OK)
 
 password_reset = PasswordReset.as_view()
-
