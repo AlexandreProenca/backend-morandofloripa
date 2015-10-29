@@ -91,6 +91,9 @@ class ImovelView(viewsets.ModelViewSet):
 
     filter_fields = ['id', 'metro_quadrado', 'bairro', 'nome_rua', 'numero_casa_ap', 'cep_imovel', 'observacoes', 'cidade', 'venda', 'disponivel', 'created', 'proprietario', 'tipo_imovel']
 
+    def get_permissions(self):
+        return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
+
 
 class ImovelHasVisitaView(viewsets.ModelViewSet):
     serializer_class = serializers.ImovelHasVisitaSerializer

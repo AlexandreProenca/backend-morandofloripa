@@ -49,9 +49,7 @@ class TipoImovelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TipoImovel
 
-class ImovelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Imovel
+
 
 class ImovelHasVisitaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -132,3 +130,12 @@ class ImovelHasDisponibilidadeSerializer(serializers.ModelSerializer):
 class ImovelIndicadoGostoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelIndicadoGosto
+
+class ImovelSerializer(serializers.ModelSerializer):
+
+    midia = MidiaSerializer()
+    valor = ValorSerializer()
+    lugar_proximo = LugarProximoSerializer()
+
+    class Meta:
+        model = models.Imovel

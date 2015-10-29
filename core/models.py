@@ -193,13 +193,15 @@ class AnuncioHasInteressado(models.Model):
 
 
 class Disponibilidade(models.Model):
-    data_inicio = models.DateTimeField()
-    data_final = models.DateTimeField()
+    data_inicio = models.DateField()
+    data_final = models.DateField()
 
     class Meta:
         managed = True
         db_table = 'disponibilidade'
 
+    def __unicode__(self):
+        return str(self.data_inicio)
 
 
 class Endereco(models.Model):
@@ -330,6 +332,7 @@ class ImovelHasPeriodo(models.Model):
 class ImovelHasValor(models.Model):
     imovel = models.ForeignKey(Imovel)
     valor = models.ForeignKey(Valor)
+    preco = models.CharField(max_length='20')
 
     class Meta:
         managed = True
@@ -352,6 +355,15 @@ class ImovelIndicadoGosto(models.Model):
     class Meta:
         managed = True
         db_table = 'imovel_indicado_gosto'
+
+
+class ImovelIndicadoIntencao(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    intencao = models.ForeignKey(Intencao)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_indicado_intencao'
 
 
 @receiver(post_save, sender=User)
