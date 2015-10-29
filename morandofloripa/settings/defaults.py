@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'rest_auth',
     'oauth2_provider',
     'rest_framework_swagger',
+    'utils',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,9 +80,9 @@ WSGI_APPLICATION = 'morandofloripa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nwpartner9',
-        'USER': 'nwpartner9',
-        'PASSWORD': 'gmmaster765',
+        'NAME': os.environ.get("MYAPP_DB_USER", ''),
+        'USER': os.environ.get("MYAPP_DB_USER", ''),
+        'PASSWORD': os.environ.get("MYAPP_DB_PASSWORD", ''),
         'HOST': '187.45.196.238',
         'PORT': '3306',
     }

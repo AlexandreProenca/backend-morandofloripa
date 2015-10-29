@@ -2,23 +2,23 @@ from defaults import *
 
 DEBUG = True
 
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.sqlite3',
-#          'NAME': 'base_teste',
-#      }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nwpartner9',
-        'USER': 'nwpartner9',
-        'PASSWORD': 'gmmaster765',
-        'HOST': '187.45.196.238',
-        'PORT': '3306',
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': 'base_teste',
+     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get("MYAPP_DB_USER", ''),
+#         'USER': os.environ.get("MYAPP_DB_USER", ''),
+#         'PASSWORD': os.environ.get("MYAPP_DB_PASSWORD", ''),
+#         'HOST': '187.45.196.238',
+#         'PORT': '3306',
+#     }
+# }
 
 #Django Restframework configuration
 REST_FRAMEWORK = {

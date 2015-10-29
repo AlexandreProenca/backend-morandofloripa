@@ -5,9 +5,9 @@ DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nwpartner9',
-        'USER': 'nwpartner9',
-        'PASSWORD': 'gmmaster765',
+        'NAME': os.environ.get("MYAPP_DB_USER", ''),
+        'USER': os.environ.get("MYAPP_DB_USER", ''),
+        'PASSWORD': os.environ.get("MYAPP_DB_PASSWORD", ''),
         'HOST': '187.45.196.238',
         'PORT': '3306',
     }
@@ -19,8 +19,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'linuxloco@gmail.com'
-EMAIL_HOST_PASSWORD = 'reis843*'
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", '')
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", '')
 SERVER_EMAIL = 'linuxloco@gmail.com'
 DEFAULT_FROM_EMAIL = 'contato@morandofloripa.com.br'
 

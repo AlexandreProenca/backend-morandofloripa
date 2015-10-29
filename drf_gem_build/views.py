@@ -1,11 +1,7 @@
 # coding: utf-8
-from rest_auth.serializers import PasswordResetSerializer
 from rest_framework.filters import DjangoFilterBackend
-from rest_framework import permissions, viewsets, status, parsers, renderers
+from rest_framework import viewsets
 from django.contrib.auth.models import User
-from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 import models
 import serializers
 
@@ -17,8 +13,6 @@ class UserView(viewsets.ModelViewSet):
 
     filter_fields = ['username', 'email']
 
-    def get_permissions(self):
-        return (AllowAny() if self.request.method == 'POST' else IsAuthenticated()),
 
 class GostoView(viewsets.ModelViewSet):
     serializer_class = serializers.GostoSerializer
@@ -57,7 +51,7 @@ class RegraView(viewsets.ModelViewSet):
     queryset = models.Regra.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'nome', 'possibilidade', 'tipo']
+    filter_fields = ['id', 'nome', 'tipo']
 
 
 class ItemInclusoView(viewsets.ModelViewSet):
@@ -177,7 +171,7 @@ class MensagemView(viewsets.ModelViewSet):
     queryset = models.Mensagem.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'de', 'para', 'titulo', 'mensagem', 'created']
+    filter_fields = ['id', 'de', 'para', 'titulo', 'mensagem', 'enviada', 'visualizada', 'created']
 
 
 class MidiaView(viewsets.ModelViewSet):
@@ -209,7 +203,7 @@ class ImovelHasRegraView(viewsets.ModelViewSet):
     queryset = models.ImovelHasRegra.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'imovel', 'beneficio', 'metro_quadrado', 'quantidade']
+    filter_fields = ['id', 'imovel', 'regra', 'possibilidade']
 
 
 class ImovelHasItemInclusoView(viewsets.ModelViewSet):
@@ -251,30 +245,3 @@ class ImovelIndicadoGostoView(viewsets.ModelViewSet):
 
     filter_fields = ['id', 'imovel', 'gosto']
 
-
-class PasswordReset(GenericAPIView):
-    """
-    Chama o método Django Auth PasswordResetForm save .
-    Aceita os seguintes parâmetros
-    POST : email
-    Retorna o sucesso / falha mensagem ou e-mail , se não existir.
-    """
-    serializer_class = PasswordResetSerializer
-    permission_classes = (AllowAny,)
-
-    def post(self, request, *args, **kwargs):
-        # Create a serializer with request.DATA
-
-        serializer = self.get_serializer(data=request.data)
-        email = self.request.data['email']
-        #
-        if not User.objects.filter(email=email):
-            return Response(data={"error": "Email " + email + " was not found"}, status=status.HTTP_400_BAD_REQUEST)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        serializer.save()
-
-        # Return the success message with OK HTTP status
-        return Response({"success": "Password reset e-mail has been sent."}, status=status.HTTP_200_OK)
-
-password_reset = PasswordReset.as_view()

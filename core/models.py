@@ -1,3 +1,4 @@
+# coding: utf-8
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -15,108 +16,257 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Avaliacao(models.Model):
-    de = models.ForeignKey(User)
-    estrelas = models.IntegerField(blank=True, null=True)
-    mensagem = models.TextField(blank=True, null=True)
-    imovel = models.ForeignKey('Imovel')
-    like = models.IntegerField(blank=True, null=True)
+
+class Gosto(models.Model):
+    nome = models.CharField(max_length=50)
 
     class Meta:
         managed = True
-        db_table = 'avaliacao'
+        db_table = 'gosto'
 
     def __unicode__(self):
-        return
+        return self.nome
+
+
+class Perfil(models.Model):
+    usuario = models.ForeignKey(User)
+    CPF = models.CharField(max_length=11, blank=True, null=True)
+    whatsapp = models.CharField(max_length=15, blank=True, null=True)
+    facebook = models.CharField(max_length=100, blank=True, null=True)
+    data_nascimento = models.DateField(blank=True, null=True)
+    sexo = models.CharField(max_length=1, blank=True, null=True)
+    nacionalidade = models.CharField(max_length=50, blank=True, null=True)
+    alugo_procuro = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+        db_table = 'perfil'
+
+    def __unicode__(self):
+        return self.usuario.first_name
+
+
+class Intencao(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'intencao'
+
+    def __unicode__(self):
+        return self.nome
+
+
+class Beneficio(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'beneficio'
+
+    def __unicode__(self):
+        return self.nome
+
+
+class Regra(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'regra'
+
+    def __unicode__(self):
+        return self.nome
+
+
+class ItemIncluso(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'item_incluso'
+
+    def __unicode__(self):
+        return self.nome
+
+class Periodo(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'periodo'
+
+    def __unicode__(self):
+        return self.nome
+
+class TipoImovel(models.Model):
+
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'tipo_imovel'
+
+    def __unicode__(self):
+        return self.nome
 
 
 class Imovel(models.Model):
-    tipo = models.CharField(max_length=9, blank=True, null=True)
-    whatsapp_contato = models.CharField(max_length=45, blank=True, null=True)
-    telefone_contato = models.CharField(max_length=45, blank=True, null=True)
-    email_contato = models.CharField(max_length=255, blank=True, null=True)
     metro_quadrado = models.FloatField(blank=True, null=True)
-    valor_diaria = models.FloatField(blank=True, null=True)
-    valor_mensal = models.FloatField(blank=True, null=True)
-    periodo_anual = models.DateField(blank=True, null=True)
-    periodo_temporada = models.DateField(blank=True, null=True)
-    qt_quartos = models.IntegerField(blank=True, null=True)
-    qt_garagem = models.IntegerField(blank=True, null=True)
-    qt_moradores = models.IntegerField(blank=True, null=True)
-    aceita_animais = models.BooleanField(default=False)
-    aceita_sexo = models.CharField(max_length=9, blank=True, null=True)
-    aceita_criancas = models.BooleanField(default=False)
-    aceita_tabaco = models.BooleanField(default=False)
-    aceita_tocar_instrumento = models.BooleanField(default=False)
-    aceita_visita_de_amigos = models.BooleanField(default=False)
-    aceita_festas = models.BooleanField(default=False)
-    alugado = models.BooleanField(default=False)
-    unica_terreno = models.BooleanField(default=False)
-    mobilhado = models.CharField(max_length=4, blank=True, null=True)
-    possue_vigilacia = models.BooleanField(default=False)
-    possue_ar_condicionado = models.BooleanField(default=False)
-    possue_sacada = models.BooleanField(default=False)
-    possue_maq_lavar = models.BooleanField(default=False)
-    possue_fogao = models.BooleanField(default=False)
-    possue_geladeira = models.BooleanField(default=False)
-    possue_microondas = models.BooleanField(default=False)
-    possue_churrasqueira = models.BooleanField(default=False)
-    possue_banheiro_externo = models.BooleanField(default=False)
-    possue_cama = models.BooleanField(default=False)
-    possue_liquidificador = models.BooleanField(default=False)
-    possue_grill = models.BooleanField(default=False)
-    possue_torradeira = models.BooleanField(default=False)
-    possue_mesa = models.BooleanField(default=False)
-    possue_orta = models.BooleanField(default=False)
-    possue_piscina = models.BooleanField(default=False)
-    possue_tv_cabo = models.BooleanField(default=False)
-    possue_garagem = models.BooleanField(default=False)
-    possue_tv = models.BooleanField(default=False)
-    incluso_internet = models.BooleanField(default=False)
-    incluso_luz = models.BooleanField(default=False)
-    incluso_agua = models.BooleanField(default=False)
-    incluso_tv_cabo = models.BooleanField(default=False)
-    disponivel_a_partir_de = models.DateField(blank=True, null=True)
-    disponivel_ate = models.DateField(blank=True, null=True)
-    horario_visita_inicio = models.TimeField(blank=True, null=True)
-    horario_visita_fim = models.TimeField(blank=True, null=True)
     bairro = models.CharField(max_length=45, blank=True, null=True)
     nome_rua = models.CharField(max_length=100, blank=True, null=True)
     numero_casa_ap = models.IntegerField(blank=True, null=True)
     cep_imovel = models.CharField(max_length=45, blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
     cidade = models.CharField(max_length=45, blank=True, null=True)
-    valor_medio_agua_por_morador = models.FloatField(blank=True, null=True)
-    valor_medio_luz_por_morador = models.FloatField(blank=True, null=True)
-    valor_medio_internet_por_morador = models.FloatField(blank=True, null=True)
-    valor_medio_aluguel_por_morador = models.FloatField(blank=True, null=True)
-    valor_max_aluguel_morador = models.FloatField(blank=True, null=True)
-    alugo_ou_procuro = models.BooleanField(default=False)
+    venda = models.BooleanField(default=False)
+    disponivel = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     proprietario = models.ForeignKey(User)
+    tipo_imovel = models.ForeignKey(TipoImovel)
 
     class Meta:
         managed = True
         db_table = 'imovel'
 
+    def __unicode__(self):
 
-class LugarProximo(models.Model):
+        return "Imovel"
+
+class ImovelHasVisita(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    visitante = models.ForeignKey(User)
+    data = models.DateTimeField()
+    observacoes = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_visita'
+
+
+class Valor(models.Model):
     nome = models.CharField(max_length=45, blank=True, null=True)
     tipo = models.CharField(max_length=12, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'valor'
+
+    def __unicode__(self):
+        return self.nome
+
+class Anuncio(models.Model):
+    data_inicio = models.DateTimeField()
+    data_final = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
     imovel = models.ForeignKey(Imovel)
 
     class Meta:
         managed = True
+        db_table = 'anuncio'
+
+    def __unicode__(self):
+        return self.imovel_id
+
+
+class AnuncioHasInteressado(models.Model):
+    anuncio = models.ForeignKey(Anuncio)
+    interessado = models.ForeignKey(User)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = True
+        db_table = 'anuncio_has_interessado'
+
+
+
+class Disponibilidade(models.Model):
+    data_inicio = models.DateTimeField()
+    data_final = models.DateTimeField()
+
+    class Meta:
+        managed = True
+        db_table = 'disponibilidade'
+
+
+
+class Endereco(models.Model):
+    cidade = models.CharField(max_length=50, blank=True, null=True)
+    bairro = models.CharField(max_length=100, blank=True, null=True)
+    rua = models.CharField(max_length=100, blank=True, null=True)
+    complemento = models.CharField(max_length=100, blank=True, null=True)
+    cep = models.CharField(max_length=100, blank=True, null=True)
+    tipo = models.CharField(max_length=100, blank=True, null=True)
+    perfil = models.ForeignKey(Perfil)
+
+    class Meta:
+        managed = True
+        db_table = 'endereco'
+
+
+class Telefone(models.Model):
+    numero = models.IntegerField(blank=True, null=True)
+    ddd = models.IntegerField(blank=True, null=True)
+    tipo = models.CharField(max_length=50, blank=True, null=True)
+    operadora = models.CharField(max_length=50, blank=True, null=True)
+    perfil = models.ForeignKey(Perfil)
+
+    class Meta:
+        managed = True
+        db_table = 'telefone'
+
+class PerfilHasGostos(models.Model):
+    perfil = models.ForeignKey(Perfil)
+    gosto = models.ForeignKey(Gosto)
+
+    class Meta:
+        managed = True
+        db_table = 'perfil_has_gostos'
+
+
+class ImovelHasAvaliacao(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    avaliador = models.ForeignKey(User)
+    estrelas = models.IntegerField()
+    mensagem = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_avaliacao'
+
+
+class LugarProximo(models.Model):
+    nome = models.CharField(max_length=45, blank=True, null=True)
+    tipo = models.CharField(max_length=12, blank=True, null=True)
+
+    class Meta:
+        managed = True
         db_table = 'lugar_proximo'
 
+    def __unicode__(self):
+        return self.nome
 
 class Mensagem(models.Model):
-    de = models.ForeignKey(User)
-    titulo = models.CharField(max_length=100, blank=True, null=True)
-    mensagem = models.TextField(blank=True, null=True)
+    de = models.ForeignKey(User, related_name='de')
+    para = models.ForeignKey(User, related_name='para')
+    titulo = models.CharField(max_length=45, blank=True, null=True)
+    mensagem = models.TextField(max_length=45, blank=True, null=True)
+    enviada = models.DateTimeField(blank=True, null=True)
+    visualizada = models.DateTimeField(blank=True,null=True)
     created = models.DateTimeField(auto_now_add=True)
-    imovel = models.ForeignKey(Imovel)
 
     class Meta:
         managed = True
@@ -126,46 +276,82 @@ class Mensagem(models.Model):
 class Midia(models.Model):
     link = models.CharField(max_length=255, blank=True, null=True)
     tipo = models.CharField(max_length=6, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
     imovel = models.ForeignKey(Imovel)
 
     class Meta:
         managed = True
         db_table = 'midia'
 
-
-class Perfil(models.Model):
-    user = models.ForeignKey(User)
-    curte_skate = models.BooleanField(default=False)
-    curte_long_bord = models.BooleanField(default=False)
-    curte_surf = models.BooleanField(default=False)
-    curte_kite = models.BooleanField(default=False)
-    curte_sup = models.BooleanField(default=False)
-    curte_praia = models.BooleanField(default=False)
-    curte_balada = models.BooleanField(default=False)
-    curte_sussego = models.BooleanField(default=False)
-    curte_natureza = models.BooleanField(default=False)
-    curte_escalada = models.BooleanField(default=False)
-    estuda_na_ufsc = models.BooleanField(default=False)
-    estuda_na_udesc = models.BooleanField(default=False)
-    curte_slackline = models.BooleanField(default=False)
-    curte_mergulho = models.BooleanField(default=False)
-    curte_montanha = models.BooleanField(default=False)
-    curte_nadar = models.BooleanField(default=False)
-    curte_bike = models.BooleanField(default=False)
-    curte_organicos = models.BooleanField(default=False)
-    curte_cerveja_caseira = models.BooleanField(default=False)
-    curte_paraquedismo = models.BooleanField(default=False)
-    curte_parapente = models.BooleanField(default=False)
-    curte_kayake = models.BooleanField(default=False)
-    curte_animais = models.BooleanField(default=False)
-    data_nascimento = models.DateField(blank=True, null=True)
-    direcao_trabalho = models.CharField(max_length=6, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+class ImovelHasLugarProximo(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    lugar_proximo = models.ForeignKey(LugarProximo)
 
     class Meta:
         managed = True
-        db_table = 'perfil'
+        db_table = 'imovel_has_lugar_proximo'
+
+class ImovelHasBeneficio(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    beneficio = models.ForeignKey(Beneficio)
+    metro_quadrado = models.FloatField(blank=True, null=True)
+    quantidade = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_beneficio'
+
+class ImovelHasRegra(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    regra = models.ForeignKey(Regra)
+    possibilidade = models.BooleanField()
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_regra'
+
+class ImovelHasItemIncluso(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    item = models.ForeignKey(ItemIncluso)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_item_incluso'
+
+
+class ImovelHasPeriodo(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    periodo = models.ForeignKey(Periodo)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_periodo'
+
+
+class ImovelHasValor(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    valor = models.ForeignKey(Valor)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_valor'
+
+
+class ImovelHasDisponibilidade(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    disponibilidade = models.ForeignKey(Disponibilidade)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_has_disponibilidade'
+
+
+class ImovelIndicadoGosto(models.Model):
+    imovel = models.ForeignKey(Imovel)
+    gosto = models.ForeignKey(Gosto)
+
+    class Meta:
+        managed = True
+        db_table = 'imovel_indicado_gosto'
 
 
 @receiver(post_save, sender=User)
