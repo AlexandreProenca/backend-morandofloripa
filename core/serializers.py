@@ -135,7 +135,6 @@ class ImovelSerializer(serializers.ModelSerializer):
 
     midia = MidiaSerializer()
     valor = ValorSerializer()
-    lugar_proximo = LugarProximoSerializer()
 
     class Meta:
         model = models.Imovel
