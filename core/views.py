@@ -16,6 +16,9 @@ class UserView(viewsets.ModelViewSet):
 
     filter_fields = ['username', 'email']
 
+    def get_permissions(self):
+        return (AllowAny() if self.request.method == 'POST' else IsAuthenticated()),
+
 
 class TipoGostoView(viewsets.ModelViewSet):
     serializer_class = serializers.TipoGostoSerializer
