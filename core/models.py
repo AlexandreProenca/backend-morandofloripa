@@ -17,19 +17,20 @@ from django.dispatch import receiver
 
 
 
-class Gosto(models.Model):
+class TipoGosto(models.Model):
     nome = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=50)
 
     class Meta:
         managed = True
-        db_table = 'gosto'
+        db_table = 'tipo_gosto'
 
     def __unicode__(self):
         return self.nome
 
 
 class Perfil(models.Model):
-    usuario = models.ForeignKey(User)
+    usuario = models.ForeignKey(User, related_name='perfil')
     CPF = models.CharField(max_length=11, blank=True, null=True)
     whatsapp = models.CharField(max_length=15, blank=True, null=True)
     facebook = models.CharField(max_length=100, blank=True, null=True)
@@ -46,65 +47,65 @@ class Perfil(models.Model):
         return self.usuario.first_name
 
 
-class Intencao(models.Model):
+class TipoIntencao(models.Model):
 
     nome = models.CharField(max_length=50, blank=True, null=True)
     tipo = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'intencao'
+        db_table = 'tipo_intencao'
 
     def __unicode__(self):
         return self.nome
 
 
-class Beneficio(models.Model):
+class TipoBeneficio(models.Model):
 
     nome = models.CharField(max_length=50, blank=True, null=True)
     tipo = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'beneficio'
+        db_table = 'tipo_beneficio'
 
     def __unicode__(self):
         return self.nome
 
 
-class Regra(models.Model):
+class TipoRegra(models.Model):
 
     nome = models.CharField(max_length=50, blank=True, null=True)
     tipo = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'regra'
+        db_table = 'tipo_regra'
 
     def __unicode__(self):
         return self.nome
 
 
-class ItemIncluso(models.Model):
+class TipoItemIncluso(models.Model):
 
     nome = models.CharField(max_length=50, blank=True, null=True)
     tipo = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'item_incluso'
+        db_table = 'tipo_item_incluso'
 
     def __unicode__(self):
         return self.nome
 
-class Periodo(models.Model):
+class TipoPeriodo(models.Model):
 
     nome = models.CharField(max_length=50, blank=True, null=True)
     tipo = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'periodo'
+        db_table = 'tipo_periodo'
 
     def __unicode__(self):
         return self.nome
@@ -145,7 +146,7 @@ class Imovel(models.Model):
         return "Imovel"
 
 class ImovelHasVisita(models.Model):
-    imovel = models.ForeignKey(Imovel)
+    imovel = models.ForeignKey(Imovel, related_name='visita')
     visitante = models.ForeignKey(User)
     data = models.DateTimeField()
     observacoes = models.TextField(blank=True, null=True)
@@ -156,33 +157,33 @@ class ImovelHasVisita(models.Model):
         db_table = 'imovel_has_visita'
 
 
-class Valor(models.Model):
+class TipoValor(models.Model):
     nome = models.CharField(max_length=45, blank=True, null=True)
     tipo = models.CharField(max_length=12, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'valor'
+        db_table = 'tipo_valor'
 
     def __unicode__(self):
         return self.nome
 
 class Anuncio(models.Model):
-    data_inicio = models.DateTimeField()
-    data_final = models.DateTimeField()
+    data_inicio = models.DateField()
+    data_final = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
-    imovel = models.ForeignKey(Imovel)
+    imovel = models.ForeignKey(Imovel, related_name='anuncio')
 
     class Meta:
         managed = True
         db_table = 'anuncio'
 
     def __unicode__(self):
-        return self.imovel_id
+        return "Anuncio:"+str(self.imovel_id)
 
 
 class AnuncioHasInteressado(models.Model):
-    anuncio = models.ForeignKey(Anuncio)
+    anuncio = models.ForeignKey(Anuncio, related_name='interessado')
     interessado = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -192,16 +193,16 @@ class AnuncioHasInteressado(models.Model):
 
 
 
-class Disponibilidade(models.Model):
-    data_inicio = models.DateField()
-    data_final = models.DateField()
+class TipoData(models.Model):
+    nome = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=50)
 
     class Meta:
         managed = True
-        db_table = 'disponibilidade'
+        db_table = 'tipo_data'
 
     def __unicode__(self):
-        return str(self.data_inicio)
+        return str(self.tipo)
 
 
 class Endereco(models.Model):
@@ -230,8 +231,8 @@ class Telefone(models.Model):
         db_table = 'telefone'
 
 class PerfilHasGostos(models.Model):
-    perfil = models.ForeignKey(Perfil)
-    gosto = models.ForeignKey(Gosto)
+    perfil = models.ForeignKey(Perfil, related_name='gostos')
+    gosto = models.ForeignKey(TipoGosto)
 
     class Meta:
         managed = True
@@ -239,7 +240,7 @@ class PerfilHasGostos(models.Model):
 
 
 class ImovelHasAvaliacao(models.Model):
-    imovel = models.ForeignKey(Imovel)
+    imovel = models.ForeignKey(Imovel, related_name='avaliacao')
     avaliador = models.ForeignKey(User)
     estrelas = models.IntegerField()
     mensagem = models.TextField()
@@ -250,13 +251,13 @@ class ImovelHasAvaliacao(models.Model):
         db_table = 'imovel_has_avaliacao'
 
 
-class LugarProximo(models.Model):
+class TipoLugarProximo(models.Model):
     nome = models.CharField(max_length=45, blank=True, null=True)
     tipo = models.CharField(max_length=12, blank=True, null=True)
 
     class Meta:
         managed = True
-        db_table = 'lugar_proximo'
+        db_table = 'tipo_lugar_proximo'
 
     def __unicode__(self):
         return self.nome
@@ -278,23 +279,23 @@ class Mensagem(models.Model):
 class Midia(models.Model):
     link = models.CharField(max_length=255, blank=True, null=True)
     tipo = models.CharField(max_length=6, blank=True, null=True)
-    imovel = models.ForeignKey(Imovel)
+    imovel = models.ForeignKey(Imovel, related_name='midia')
 
     class Meta:
         managed = True
         db_table = 'midia'
 
 class ImovelHasLugarProximo(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    lugar_proximo = models.ForeignKey(LugarProximo)
+    imovel = models.ForeignKey(Imovel, related_name='proximo')
+    lugar_proximo = models.ForeignKey(TipoLugarProximo)
 
     class Meta:
         managed = True
         db_table = 'imovel_has_lugar_proximo'
 
 class ImovelHasBeneficio(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    beneficio = models.ForeignKey(Beneficio)
+    imovel = models.ForeignKey(Imovel, related_name='beneficio')
+    beneficio = models.ForeignKey(TipoBeneficio)
     metro_quadrado = models.FloatField(blank=True, null=True)
     quantidade = models.IntegerField(blank=True, null=True)
 
@@ -303,8 +304,8 @@ class ImovelHasBeneficio(models.Model):
         db_table = 'imovel_has_beneficio'
 
 class ImovelHasRegra(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    regra = models.ForeignKey(Regra)
+    imovel = models.ForeignKey(Imovel, related_name='regra')
+    regra = models.ForeignKey(TipoRegra)
     possibilidade = models.BooleanField()
 
     class Meta:
@@ -312,8 +313,8 @@ class ImovelHasRegra(models.Model):
         db_table = 'imovel_has_regra'
 
 class ImovelHasItemIncluso(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    item = models.ForeignKey(ItemIncluso)
+    imovel = models.ForeignKey(Imovel, related_name='incluso')
+    item = models.ForeignKey(TipoItemIncluso)
 
     class Meta:
         managed = True
@@ -321,8 +322,8 @@ class ImovelHasItemIncluso(models.Model):
 
 
 class ImovelHasPeriodo(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    periodo = models.ForeignKey(Periodo)
+    imovel = models.ForeignKey(Imovel, related_name='periodo')
+    periodo = models.ForeignKey(TipoPeriodo)
 
     class Meta:
         managed = True
@@ -330,9 +331,9 @@ class ImovelHasPeriodo(models.Model):
 
 
 class ImovelHasValor(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    valor = models.ForeignKey(Valor)
-    preco = models.CharField(max_length='20')
+    imovel = models.ForeignKey(Imovel, related_name='valor')
+    valor = models.ForeignKey(TipoValor)
+    preco = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -340,8 +341,9 @@ class ImovelHasValor(models.Model):
 
 
 class ImovelHasDisponibilidade(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    disponibilidade = models.ForeignKey(Disponibilidade)
+    imovel = models.ForeignKey(Imovel, related_name='disponibilidade')
+    data = models.DateField()
+    disponibilidade = models.ForeignKey(TipoData)
 
     class Meta:
         managed = True
@@ -349,8 +351,8 @@ class ImovelHasDisponibilidade(models.Model):
 
 
 class ImovelIndicadoGosto(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    gosto = models.ForeignKey(Gosto)
+    imovel = models.ForeignKey(Imovel, related_name='imovelindicado')
+    gosto = models.ForeignKey(TipoGosto)
 
     class Meta:
         managed = True
@@ -358,8 +360,8 @@ class ImovelIndicadoGosto(models.Model):
 
 
 class ImovelIndicadoIntencao(models.Model):
-    imovel = models.ForeignKey(Imovel)
-    intencao = models.ForeignKey(Intencao)
+    imovel = models.ForeignKey(Imovel, related_name='imovelintencao')
+    intencao = models.ForeignKey(TipoIntencao)
 
     class Meta:
         managed = True

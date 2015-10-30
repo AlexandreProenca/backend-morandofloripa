@@ -3,26 +3,25 @@ from django.contrib import admin
 import models
 
 
-class Gosto(admin.ModelAdmin):
-    list_display = ['id', 'nome']
+class TipoGosto(admin.ModelAdmin):
+    list_display = ['id', 'nome', 'tipo']
 
 class Perfil(admin.ModelAdmin):
     list_display = ['id', 'usuario', 'CPF', 'whatsapp', 'facebook', 'data_nascimento', 'sexo', 'nacionalidade', 'alugo_procuro']
 
-class Intencao(admin.ModelAdmin):
+class TipoIntencao(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
-class Beneficio(admin.ModelAdmin):
-
+class TipoBeneficio(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
-class Regra(admin.ModelAdmin):
+class TipoRegra(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
-class ItemIncluso(admin.ModelAdmin):
+class TipoItemIncluso(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
-class Periodo(admin.ModelAdmin):
+class TipoPeriodo(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
 class TipoImovel(admin.ModelAdmin):
@@ -34,7 +33,7 @@ class Imovel(admin.ModelAdmin):
 class ImovelHasVisita(admin.ModelAdmin):
     list_display = ['id', 'imovel', 'visitante', 'data', 'observacoes', 'created']
 
-class Valor(admin.ModelAdmin):
+class TipoValor(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
 class Anuncio(admin.ModelAdmin):
@@ -43,8 +42,8 @@ class Anuncio(admin.ModelAdmin):
 class AnuncioHasInteressado(admin.ModelAdmin):
     list_display = ['id', 'anuncio', 'interessado', 'created']
 
-class Disponibilidade(admin.ModelAdmin):
-    list_display = ['id', 'data_inicio', 'data_final']
+class TipoData(admin.ModelAdmin):
+    list_display = ['id', 'nome', 'tipo']
 
 class Endereco(admin.ModelAdmin):
     list_display = ['id', 'cidade', 'bairro', 'rua', 'complemento', 'cep', 'tipo', 'perfil']
@@ -58,7 +57,7 @@ class PerfilHasGostos(admin.ModelAdmin):
 class ImovelHasAvaliacao(admin.ModelAdmin):
     list_display = ['id', 'imovel', 'avaliador', 'estrelas', 'mensagem', 'created']
 
-class LugarProximo(admin.ModelAdmin):
+class TipoLugarProximo(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
 class Mensagem(admin.ModelAdmin):
@@ -83,34 +82,37 @@ class ImovelHasPeriodo(admin.ModelAdmin):
     list_display = ['id', 'imovel', 'periodo']
 
 class ImovelHasValor(admin.ModelAdmin):
-    list_display = ['id', 'imovel', 'valor']
+    list_display = ['id', 'imovel', 'valor', 'preco']
 
 class ImovelHasDisponibilidade(admin.ModelAdmin):
-    list_display = ['id', 'imovel', 'disponibilidade']
+    list_display = ['id', 'imovel', 'data', 'disponibilidade']
 
 class ImovelIndicadoGosto(admin.ModelAdmin):
     list_display = ['id', 'imovel', 'gosto']
 
+class ImovelIndicadoIntencao(admin.ModelAdmin):
+    list_display = ['id', 'imovel', 'intencao']
 
-admin.site.register(models.Gosto, Gosto)
+
+admin.site.register(models.TipoGosto, TipoGosto)
 admin.site.register(models.Perfil, Perfil)
-admin.site.register(models.Intencao, Intencao)
-admin.site.register(models.Beneficio, Beneficio)
-admin.site.register(models.Regra, Regra)
-admin.site.register(models.ItemIncluso, ItemIncluso)
-admin.site.register(models.Periodo, Periodo)
+admin.site.register(models.TipoIntencao, TipoIntencao)
+admin.site.register(models.TipoBeneficio, TipoBeneficio)
+admin.site.register(models.TipoRegra, TipoRegra)
+admin.site.register(models.TipoItemIncluso, TipoItemIncluso)
+admin.site.register(models.TipoPeriodo, TipoPeriodo)
 admin.site.register(models.TipoImovel, TipoImovel)
 admin.site.register(models.Imovel, Imovel)
 admin.site.register(models.ImovelHasVisita, ImovelHasVisita)
-admin.site.register(models.Valor, Valor)
+admin.site.register(models.TipoValor, TipoValor)
 admin.site.register(models.Anuncio, Anuncio)
 admin.site.register(models.AnuncioHasInteressado, AnuncioHasInteressado)
-admin.site.register(models.Disponibilidade, Disponibilidade)
+admin.site.register(models.TipoData, TipoData)
 admin.site.register(models.Endereco, Endereco)
 admin.site.register(models.Telefone, Telefone)
 admin.site.register(models.PerfilHasGostos, PerfilHasGostos)
 admin.site.register(models.ImovelHasAvaliacao, ImovelHasAvaliacao)
-admin.site.register(models.LugarProximo, LugarProximo)
+admin.site.register(models.TipoLugarProximo, TipoLugarProximo)
 admin.site.register(models.Mensagem, Mensagem)
 admin.site.register(models.Midia, Midia)
 admin.site.register(models.ImovelHasLugarProximo, ImovelHasLugarProximo)
@@ -121,3 +123,4 @@ admin.site.register(models.ImovelHasPeriodo, ImovelHasPeriodo)
 admin.site.register(models.ImovelHasValor, ImovelHasValor)
 admin.site.register(models.ImovelHasDisponibilidade, ImovelHasDisponibilidade)
 admin.site.register(models.ImovelIndicadoGosto, ImovelIndicadoGosto)
+admin.site.register(models.ImovelIndicadoIntencao, ImovelIndicadoIntencao)

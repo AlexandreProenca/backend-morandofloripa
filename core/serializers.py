@@ -7,69 +7,67 @@ from django.contrib.auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
         write_only_fields = ('password',)
-
-    # def update(self, attrs, instance=None):
-    #     user = super(UserSerializer, self).update(attrs, instance)
-    #     user.set_password(attrs['password'])
-    #     return user
+        exclude = ('password', 'is_staff', 'last_login', 'is_superuser', 'username', 'date_joined')
 
 
-
-class GostoSerializer(serializers.ModelSerializer):
+class TipoGostoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Gosto
+        model = models.TipoGosto
+        exclude = ('id',)
 
 class PerfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Perfil
 
-class IntencaoSerializer(serializers.ModelSerializer):
+class TipoIntencaoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Intencao
+        model = models.TipoIntencao
+        exclude = ('id', 'tipo')
 
-class BeneficioSerializer(serializers.ModelSerializer):
+class TipoBeneficioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Beneficio
+        model = models.TipoBeneficio
+        exclude = ('id', 'tipo')
 
-class RegraSerializer(serializers.ModelSerializer):
+class TipoRegraSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Regra
+        model = models.TipoRegra
+        exclude = ('id', 'tipo')
 
-class ItemInclusoSerializer(serializers.ModelSerializer):
+class TipoItemInclusoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.ItemIncluso
+        model = models.TipoItemIncluso
+        exclude = ('id', 'tipo')
 
-class PeriodoSerializer(serializers.ModelSerializer):
+class TipoPeriodoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Periodo
+        model = models.TipoPeriodo
+        exclude = ('id', 'tipo')
 
 class TipoImovelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TipoImovel
-
-
+        exclude = ('id', 'tipo')
 
 class ImovelHasVisitaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasVisita
+        exclude = ('imovel', 'id')
+        depth = 1
 
-class ValorSerializer(serializers.ModelSerializer):
+class TipoValorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Valor
-
-class AnuncioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Anuncio
+        model = models.TipoValor
 
 class AnuncioHasInteressadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AnuncioHasInteressado
 
-class DisponibilidadeSerializer(serializers.ModelSerializer):
+class TipoDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Disponibilidade
+        model = models.TipoData
+        exclude = ('id', 'tipo')
 
 class EnderecoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,10 +84,13 @@ class PerfilHasGostosSerializer(serializers.ModelSerializer):
 class ImovelHasAvaliacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasAvaliacao
+        exclude = ('imovel', 'id')
+        depth = 1
 
-class LugarProximoSerializer(serializers.ModelSerializer):
+class TipoLugarProximoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.LugarProximo
+        model = models.TipoLugarProximo
+        exclude = ('id', 'tipo')
 
 class MensagemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -98,43 +99,84 @@ class MensagemSerializer(serializers.ModelSerializer):
 class MidiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Midia
+        exclude = ('imovel', 'id')
 
 class ImovelHasLugarProximoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasLugarProximo
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasBeneficioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasBeneficio
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasRegraSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasRegra
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasItemInclusoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasItemIncluso
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasPeriodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasPeriodo
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasValorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasValor
+        exclude = ('imovel', 'id')
+        depth = 1
 
 class ImovelHasDisponibilidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelHasDisponibilidade
+        depth = 1
+        exclude = ('imovel', 'id')
 
 class ImovelIndicadoGostoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ImovelIndicadoGosto
+        depth = 1
+        exclude = ('imovel', 'id')
+
+class ImovelIndicadoIntencaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ImovelIndicadoIntencao
+        depth = 1
+        exclude = ('imovel', 'id')
 
 class ImovelSerializer(serializers.ModelSerializer):
 
-    midia = MidiaSerializer()
-    valor = ValorSerializer()
+    tipo_imovel = TipoImovelSerializer()
+    proprietario = UserSerializer()
+    midia = MidiaSerializer(many=True)
+    beneficio = ImovelHasBeneficioSerializer(many=True)
+    valor = ImovelHasValorSerializer(many=True)
+    disponibilidade = ImovelHasDisponibilidadeSerializer(many=True)
+    visita = ImovelHasVisitaSerializer(many=True)
+    avaliacao = ImovelHasAvaliacaoSerializer(many=True)
+    proximo = ImovelHasLugarProximoSerializer(many=True)
+    regra = ImovelHasRegraSerializer(many=True)
+    incluso = ImovelHasItemInclusoSerializer(many=True)
+    periodo = ImovelHasPeriodoSerializer(many=True)
+    imovelindicado = ImovelIndicadoGostoSerializer(many=True)
+    imovelintencao = ImovelIndicadoIntencaoSerializer(many=True)
 
     class Meta:
         model = models.Imovel
+
+class AnuncioSerializer(serializers.ModelSerializer):
+    class Meta:
+        imovel = ImovelSerializer()
+        model = models.Anuncio
+        depth = 2

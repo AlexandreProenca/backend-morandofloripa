@@ -9,7 +9,6 @@ from rest_framework.response import Response
 import models
 import serializers
 
-
 class UserView(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
@@ -17,15 +16,13 @@ class UserView(viewsets.ModelViewSet):
 
     filter_fields = ['username', 'email']
 
-    def get_permissions(self):
-        return (AllowAny() if self.request.method == 'POST' else IsAuthenticated()),
 
-class GostoView(viewsets.ModelViewSet):
-    serializer_class = serializers.GostoSerializer
-    queryset = models.Gosto.objects.all()
+class TipoGostoView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoGostoSerializer
+    queryset = models.TipoGosto.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'nome']
+    filter_fields = ['id', 'nome', 'tipo']
 
 
 class PerfilView(viewsets.ModelViewSet):
@@ -36,41 +33,41 @@ class PerfilView(viewsets.ModelViewSet):
     filter_fields = ['id', 'usuario', 'CPF', 'whatsapp', 'facebook', 'data_nascimento', 'sexo', 'nacionalidade', 'alugo_procuro']
 
 
-class IntencaoView(viewsets.ModelViewSet):
-    serializer_class = serializers.IntencaoSerializer
-    queryset = models.Intencao.objects.all()
+class TipoIntencaoView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoIntencaoSerializer
+    queryset = models.TipoIntencao.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
 
 
-class BeneficioView(viewsets.ModelViewSet):
-    serializer_class = serializers.BeneficioSerializer
-    queryset = models.Beneficio.objects.all()
+class TipoBeneficioView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoBeneficioSerializer
+    queryset = models.TipoBeneficio.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
 
 
-class RegraView(viewsets.ModelViewSet):
-    serializer_class = serializers.RegraSerializer
-    queryset = models.Regra.objects.all()
-    filter_backends = [DjangoFilterBackend]
-
-    filter_fields = ['id', 'nome', 'possibilidade', 'tipo']
-
-
-class ItemInclusoView(viewsets.ModelViewSet):
-    serializer_class = serializers.ItemInclusoSerializer
-    queryset = models.ItemIncluso.objects.all()
+class TipoRegraView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoRegraSerializer
+    queryset = models.TipoRegra.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
 
 
-class PeriodoView(viewsets.ModelViewSet):
-    serializer_class = serializers.PeriodoSerializer
-    queryset = models.Periodo.objects.all()
+class TipoItemInclusoView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoItemInclusoSerializer
+    queryset = models.TipoItemIncluso.objects.all()
+    filter_backends = [DjangoFilterBackend]
+
+    filter_fields = ['id', 'nome', 'tipo']
+
+
+class TipoPeriodoView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoPeriodoSerializer
+    queryset = models.TipoPeriodo.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
@@ -89,11 +86,39 @@ class ImovelView(viewsets.ModelViewSet):
     queryset = models.Imovel.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'metro_quadrado', 'bairro', 'nome_rua', 'numero_casa_ap', 'cep_imovel', 'observacoes', 'cidade', 'venda', 'disponivel', 'created', 'proprietario', 'tipo_imovel']
+    filter_fields = ['id',
+                     'metro_quadrado',
+                     'bairro', 'nome_rua',
+                     'numero_casa_ap',
+                     'cep_imovel',
+                     'observacoes',
+                     'cidade',
+                     'venda',
+                     'disponivel',
+                     'created',
+                     'proprietario',
+                     'tipo_imovel']
 
     def get_permissions(self):
         return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
 
+    def get_queryset(self):
+        return models.Imovel.objects.prefetch_related(
+            'midia',
+            'beneficio',
+            'valor',
+            'visita',
+            'avaliacao',
+            'proximo',
+            'beneficio',
+            'regra',
+            'incluso',
+            'periodo',
+            'valor',
+            'disponibilidade',
+            'imovelindicado',
+            'imovelintencao'
+        )
 
 class ImovelHasVisitaView(viewsets.ModelViewSet):
     serializer_class = serializers.ImovelHasVisitaSerializer
@@ -103,9 +128,9 @@ class ImovelHasVisitaView(viewsets.ModelViewSet):
     filter_fields = ['id', 'imovel', 'visitante', 'data', 'observacoes', 'created']
 
 
-class ValorView(viewsets.ModelViewSet):
-    serializer_class = serializers.ValorSerializer
-    queryset = models.Valor.objects.all()
+class TipoValorView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoValorSerializer
+    queryset = models.TipoValor.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
@@ -118,6 +143,12 @@ class AnuncioView(viewsets.ModelViewSet):
 
     filter_fields = ['id', 'data_inicio', 'data_final', 'created', 'imovel']
 
+    def get_permissions(self):
+        return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
+
+    def get_queryset(self):
+        return models.Anuncio.objects.prefetch_related('imovel')
+
 
 class AnuncioHasInteressadoView(viewsets.ModelViewSet):
     serializer_class = serializers.AnuncioHasInteressadoSerializer
@@ -127,12 +158,12 @@ class AnuncioHasInteressadoView(viewsets.ModelViewSet):
     filter_fields = ['id', 'anuncio', 'interessado', 'created']
 
 
-class DisponibilidadeView(viewsets.ModelViewSet):
-    serializer_class = serializers.DisponibilidadeSerializer
-    queryset = models.Disponibilidade.objects.all()
+class TipoDataView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoDataSerializer
+    queryset = models.TipoData.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'data_inicio', 'data_final']
+    filter_fields = ['id', 'data', 'tipo']
 
 
 class EnderecoView(viewsets.ModelViewSet):
@@ -167,9 +198,9 @@ class ImovelHasAvaliacaoView(viewsets.ModelViewSet):
     filter_fields = ['id', 'imovel', 'avaliador', 'estrelas', 'mensagem', 'created']
 
 
-class LugarProximoView(viewsets.ModelViewSet):
-    serializer_class = serializers.LugarProximoSerializer
-    queryset = models.LugarProximo.objects.all()
+class TipoLugarProximoView(viewsets.ModelViewSet):
+    serializer_class = serializers.TipoLugarProximoSerializer
+    queryset = models.TipoLugarProximo.objects.all()
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'nome', 'tipo']
@@ -180,7 +211,7 @@ class MensagemView(viewsets.ModelViewSet):
     queryset = models.Mensagem.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'de', 'para', 'titulo', 'mensagem', 'created']
+    filter_fields = ['id', 'de', 'para', 'titulo', 'mensagem', 'enviada', 'visualizada', 'created']
 
 
 class MidiaView(viewsets.ModelViewSet):
@@ -212,7 +243,7 @@ class ImovelHasRegraView(viewsets.ModelViewSet):
     queryset = models.ImovelHasRegra.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'imovel', 'beneficio', 'metro_quadrado', 'quantidade']
+    filter_fields = ['id', 'imovel', 'regra', 'possibilidade']
 
 
 class ImovelHasItemInclusoView(viewsets.ModelViewSet):
@@ -236,7 +267,7 @@ class ImovelHasValorView(viewsets.ModelViewSet):
     queryset = models.ImovelHasValor.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'imovel', 'valor']
+    filter_fields = ['id', 'imovel', 'valor', 'preco']
 
 
 class ImovelHasDisponibilidadeView(viewsets.ModelViewSet):
@@ -253,6 +284,14 @@ class ImovelIndicadoGostoView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
 
     filter_fields = ['id', 'imovel', 'gosto']
+
+
+class ImovelIndicadoIntencaoView(viewsets.ModelViewSet):
+    serializer_class = serializers.ImovelIndicadoIntencaoSerializer
+    queryset = models.ImovelIndicadoIntencao.objects.all()
+    filter_backends = [DjangoFilterBackend]
+
+    filter_fields = ['id', 'imovel', 'intencao']
 
 
 class PasswordReset(GenericAPIView):
