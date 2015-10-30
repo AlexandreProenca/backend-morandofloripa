@@ -114,6 +114,10 @@ class ImovelView(viewsets.ModelViewSet):
         return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
 
     def get_queryset(self):
+        """
+        In the case of ManyToMany and GenericForeignKey relationships use prefetch_related instead of select_related
+        https://docs.djangoproject.com/en/dev/ref/models/querysets/#django.db.models.query.QuerySet.prefetch_related
+        """
         return models.Imovel.objects.prefetch_related(
             'midia',
             'beneficio',
@@ -128,7 +132,7 @@ class ImovelView(viewsets.ModelViewSet):
             'valor',
             'disponibilidade',
             'imovelindicado',
-            'imovelintencao'
+            'imovelintencao',
         )
 
 class ImovelHasVisitaView(viewsets.ModelViewSet):
@@ -162,6 +166,11 @@ class AnuncioView(viewsets.ModelViewSet):
         return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
 
     def get_queryset(self):
+        """
+        traversing the ForeignKey relationship use select_related instead of prefetch_related
+        (not work to reverse ForeignKey relationships)
+        http://timmyomahony.com/blog/misconceptions-select_related-in-django/
+        """
         return models.Anuncio.objects.select_related('imovel')
 
 
