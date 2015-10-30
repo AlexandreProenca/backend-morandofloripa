@@ -33,7 +33,15 @@ class PerfilView(viewsets.ModelViewSet):
     queryset = models.Perfil.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'usuario', 'CPF', 'whatsapp', 'facebook', 'data_nascimento', 'sexo', 'nacionalidade', 'alugo_procuro']
+    filter_fields = ['id',
+                     'usuario',
+                     'CPF',
+                     'whatsapp',
+                     'facebook',
+                     'data_nascimento',
+                     'sexo',
+                     'nacionalidade',
+                     'alugo_procuro']
 
 
 class TipoIntencaoView(viewsets.ModelViewSet):
@@ -144,13 +152,17 @@ class AnuncioView(viewsets.ModelViewSet):
     queryset = models.Anuncio.objects.all()
     filter_backends = [DjangoFilterBackend]
 
-    filter_fields = ['id', 'data_inicio', 'data_final', 'created', 'imovel']
+    filter_fields = ['id',
+                     'data_inicio',
+                     'data_final',
+                     'created',
+                     'imovel']
 
     def get_permissions(self):
         return (AllowAny() if self.request.method == 'GET' else IsAuthenticated()),
 
     def get_queryset(self):
-        return models.Anuncio.objects.prefetch_related('imovel')
+        return models.Anuncio.objects.select_related('imovel')
 
 
 class AnuncioHasInteressadoView(viewsets.ModelViewSet):

@@ -176,7 +176,10 @@ class ImovelSerializer(serializers.ModelSerializer):
         model = models.Imovel
 
 class AnuncioSerializer(serializers.ModelSerializer):
+
+    imovel = ImovelSerializer()
+
     class Meta:
-        imovel = ImovelSerializer()
+
         model = models.Anuncio
         depth = 2

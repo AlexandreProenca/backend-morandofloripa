@@ -15,7 +15,7 @@ DATABASES = {
         'NAME': os.environ.get("MYAPP_DB_USER", ''),
         'USER': os.environ.get("MYAPP_DB_USER", ''),
         'PASSWORD': os.environ.get("MYAPP_DB_PASSWORD", ''),
-        'HOST': os.environ.get("HOST_DB_MF", ''),
+        'HOST': '187.45.196.238',
         'PORT': '3306',
     }
 }
