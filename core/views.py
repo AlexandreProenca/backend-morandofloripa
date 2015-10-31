@@ -380,14 +380,13 @@ class ObtainAuthToken(APIView):
               message: OK
 
         """
-        print(request.data)
         serializer = AuthTokenSerializer(data=request.data)
         if serializer.is_valid():
-            user = request.data[unicode('username')]
-            usuario = User.objects.get(username=user)
+            usuario = User.objects.get(username=request.data[unicode('username')])
             token, created = Token.objects.get_or_create(user=usuario)
+            imagem = models.Perfil.objects.filter(usuario=usuario).values('imagem')[0]['imagem']
             serializer = serializers.UserSerializer(usuario)
-            return Response(data={"token": token.key, "user": serializer.data})
+            return Response(data={"token": token.key, "user": serializer.data, "image": imagem})
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 
