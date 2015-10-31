@@ -7,7 +7,7 @@ class TipoGosto(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']
 
 class Perfil(admin.ModelAdmin):
-    list_display = ['id', 'usuario', 'CPF', 'whatsapp', 'facebook', 'data_nascimento', 'sexo', 'nacionalidade', 'alugo_procuro']
+    list_display = ['id', 'usuario', 'CPF', 'imagem', 'whatsapp', 'facebook', 'data_nascimento', 'sexo', 'nacionalidade', 'alugo_procuro']
 
 class TipoIntencao(admin.ModelAdmin):
     list_display = ['id', 'nome', 'tipo']

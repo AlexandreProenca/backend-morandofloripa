@@ -1,11 +1,14 @@
 # coding: utf-8
 from rest_auth.serializers import PasswordResetSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.filters import DjangoFilterBackend
 from rest_framework import permissions, viewsets, status, parsers, renderers
 from django.contrib.auth.models import User
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 import models
 import serializers
 
@@ -344,3 +347,48 @@ class PasswordReset(GenericAPIView):
         return Response({"success": "Password reset e-mail has been sent."}, status=status.HTTP_200_OK)
 
 password_reset = PasswordReset.as_view()
+
+
+
+
+class ObtainAuthToken(APIView):
+    throttle_classes = ()
+    permission_classes = (AllowAny,)
+    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    serializer_class = AuthTokenSerializer
+    model = Token
+
+    def post(self, request):
+
+        """
+        Retorna um token valido para o usuario atenticado.
+        ---
+        parameters:
+            - name: username
+              description: Foobar long description goes here
+              required: true
+              type: text
+              paramType: form
+            - name: password
+              paramType: text
+
+        responseMessages:
+            - code: 401
+              message: Crendenciais invalidas
+            - code: 200
+              message: OK
+
+        """
+        print(request.data)
+        serializer = AuthTokenSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.data[unicode('username')]
+            usuario = User.objects.get(username=user)
+            token, created = Token.objects.get_or_create(user=usuario)
+            serializer = serializers.UserSerializer(usuario)
+            return Response(data={"token": token.key, "user": serializer.data})
+        return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
+obtain_auth_token = ObtainAuthToken.as_view()

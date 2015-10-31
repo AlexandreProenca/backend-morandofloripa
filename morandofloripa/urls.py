@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^docs/', include('rest_framework_swagger.urls')),
+    url(r'^v1/token-auth/', 'core.views.obtain_auth_token'),
     url(r'^v1/password-reset/$', 'core.views.password_reset', {'post_reset_redirect' : '/accounts/password_reset/mailed/'}, name='password-reset'),
     #to use management credentials in web page and reset password
     url(r'^accounts/password_reset/$', 'django.contrib.auth.views.password_reset', {'post_reset_redirect': '/accounts/password_reset/mailed/'}, name="password_reset"),

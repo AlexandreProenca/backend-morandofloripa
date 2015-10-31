@@ -38,6 +38,7 @@ class Perfil(models.Model):
     sexo = models.CharField(max_length=1, blank=True, null=True)
     nacionalidade = models.CharField(max_length=50, blank=True, null=True)
     alugo_procuro = models.BooleanField(default=False)
+    imagem = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = True
