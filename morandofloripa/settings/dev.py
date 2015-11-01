@@ -15,7 +15,7 @@ DATABASES = {
         'NAME': os.environ.get("MYAPP_DB_USER", ''),
         'USER': os.environ.get("MYAPP_DB_USER", ''),
         'PASSWORD': os.environ.get("MYAPP_DB_PASSWORD", ''),
-        'HOST': '187.45.196.238',
+        'HOST': os.environ.get("HOST_DB_MF", ''),
         'PORT': '3306',
     }
 }
@@ -26,14 +26,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
-        #'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        #'rest_framework.authentication.BasicAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
 
     'DEFAULT_PERMISSION_CLASSES':(
-        #'rest_framework.permissions.AllowAny',
         'rest_framework.permissions.IsAuthenticated',
     ),
 
