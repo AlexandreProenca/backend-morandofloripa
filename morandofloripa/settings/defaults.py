@@ -46,11 +46,38 @@ INSTALLED_APPS = (
     'core',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
+    'social.apps.django_app.default',
     'oauth2_provider',
+    'rest_framework_social_oauth2',
+    'rest_auth',
     'rest_framework_swagger',
     'utils',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '466495246887419'
+SOCIAL_AUTH_FACEBOOK_SECRET = '17baadc5076ea67cd0b13b227abe4ee6'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+
+AUTHENTICATION_BACKENDS = (
+
+    # Facebook OAuth2
+    'social.backends.facebook.FacebookAppOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+
+    # django-rest-framework-social-oauth2
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
 
 MIDDLEWARE_CLASSES = (
     #'yet_another_django_profiler.middleware.ProfilerMiddleware',
@@ -110,7 +137,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
         #'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
